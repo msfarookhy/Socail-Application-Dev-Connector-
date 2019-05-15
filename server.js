@@ -22,7 +22,7 @@ mongoose
   .catch(err => console.log(err));
 
 // passport middelware
-app.use(passport.intialized());
+app.use(passport.initialize());
 
 // passport config
 require("./config/passport")(passport);
