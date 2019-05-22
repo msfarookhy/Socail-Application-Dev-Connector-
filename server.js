@@ -22,6 +22,14 @@ mongoose
   .catch(err => console.log(err));
 
 // passport middelware
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 app.use(passport.initialize());
 
 // passport config

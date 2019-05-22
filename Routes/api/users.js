@@ -95,7 +95,11 @@ router.get(
   "/current",
   passport.authenticate("jwt", { seesion: false }),
   (req, res) => {
-    res.json({ msg: "sucess" });
+    res.json({
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email
+    });
   }
 );
 module.exports = router;
