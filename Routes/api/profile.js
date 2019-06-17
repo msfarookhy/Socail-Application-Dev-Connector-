@@ -10,7 +10,7 @@ const validateEducationInput = require("../../validation/education");
 
 //Loading Profile Model
 const Profile = require("../../models/Profile");
-// Loadinf User Profile
+// Loadinf User Model
 const User = require("../../models/User");
 
 // @route  GET api/profile/test
@@ -258,6 +258,46 @@ router.delete(
         profile.save().then(profile => res.json(profile));
       })
       .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route  DELETE api/profile/education:edu_id
+// @desc   Delete Education profile
+// @acess  Private
+router.delete(
+  "/education/:edu_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // Get Remove index From education  array
+
+        const removeIndex = profile.education
+          .map(item => item.id)
+          .indexOf(req.params.edu_id);
+
+        //splice out of array from education
+        profile.education.splice(removeIndex, 1);
+        //Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route  DELETE api/profile
+// @desc   Delete User And profile
+// @acess  Private
+
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
+      User.findOneAndRemove({ _id: req.user.id }).then(() =>
+        res.json({ success: true })
+      );
+    });
   }
 );
 
