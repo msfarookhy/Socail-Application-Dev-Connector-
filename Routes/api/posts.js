@@ -112,7 +112,7 @@ router.post(
           ) {
             return res
               .status(400)
-              .json({ alredyliked: " User Alredy Liked The pPost" });
+              .json({ alredyliked: " User Alredy Liked The Post" });
           }
           // Add User id to likes array
           post.likes.unshift({ user: req.user.id });

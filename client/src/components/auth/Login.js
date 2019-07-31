@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
+import { conncet } from "react-redux";
+import { loginUser } from "../../actions//authActions";
+import { connect } from "mongoose";
 class Login extends Component {
   constructor() {
     super();
@@ -65,4 +68,4 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+export default connect()(Login);
