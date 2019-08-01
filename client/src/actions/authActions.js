@@ -1,11 +1,10 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
+
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
-import { decode } from "punycode";
 
-//register user
-
+// Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/users/register", userData)
@@ -18,22 +17,21 @@ export const registerUser = (userData, history) => dispatch => {
     );
 };
 
-//login get user token
-
+// Login - Get User Token
 export const loginUser = userData => dispatch => {
   axios
     .post("/api/users/login", userData)
     .then(res => {
-      //save to local storage
+      // Save to localStorage
       const { token } = res.data;
-      //set token to local storage
+      // Set token to ls
       localStorage.setItem("jwtToken", token);
-      //set Token to auth header
+      // Set token to Auth header
       setAuthToken(token);
-      //Decode token TO Get User Data
-      const decode = jwt_decode(token);
-      // Set Current User
-      dispatch(setCurrentUser(decode));
+      // Decode token to get user data
+      const decoded = jwt_decode(token);
+      // Set current user
+      dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
       dispatch({
@@ -43,10 +41,10 @@ export const loginUser = userData => dispatch => {
     );
 };
 
-// set logged in User
-export const setCurrentUser = decode => {
+// Set logged in user
+export const setCurrentUser = decoded => {
   return {
-    typ: SET_CURRENT_USER,
-    payload: decode
+    type: SET_CURRENT_USER,
+    payload: decoded
   };
 };
